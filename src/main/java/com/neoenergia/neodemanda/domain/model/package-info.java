@@ -5,4 +5,4 @@
  * calculo). Nao carregam anotacoes de transporte HTTP - para entrada e saida da
  * API use {@link com.neoenergia.neodemanda.dto}.
  */
-package com.neoenergia.neodemanda.model;
+package com.neoenergia.neodemanda.domain.model;

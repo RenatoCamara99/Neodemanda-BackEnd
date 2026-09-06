@@ -14,6 +14,8 @@ health-check, usado para validar que a aplicação está operante.
 | Framework | Spring Boot 4.1.1 |
 | Web | `spring-boot-starter-webmvc` (Spring MVC + Tomcat embarcado) |
 | Validação | `spring-boot-starter-validation` (Jakarta Bean Validation + Hibernate Validator) |
+| Persistência | `spring-boot-starter-data-jpa` (Spring Data JPA + Hibernate) |
+| Banco (temporário) | H2 em memória — placeholder até a definição do banco oficial |
 | Dev | `spring-boot-devtools` (restart automático) |
 | Testes | `spring-boot-starter-test` (JUnit 5 + Mockito + AssertJ) |
 | Build | Maven (via Maven Wrapper — `mvnw`) |
@@ -87,7 +89,9 @@ src/main/java/com/neoenergia/neodemanda/
 ├── controller/                  # camada REST — endpoints HTTP
 ├── service/                     # regras de negócio (cálculo normativo)
 ├── repository/                  # acesso a dados / persistência
-├── model/                       # entidades e objetos de domínio
+├── domain/
+│   ├── model/                   # entidades JPA do domínio (Projeto)
+│   └── enums/                   # enums do domínio (TipoEdificacao, TensaoAtendimento, StatusProjeto)
 ├── dto/                         # objetos de entrada e saída da API (Bean Validation)
 └── exception/                   # exceções e tratamento centralizado de erros
 ```
@@ -98,6 +102,12 @@ Os testes espelham essa estrutura em `src/test/java/com/neoenergia/neodemanda/`.
 
 Parâmetros da aplicação ficam em [`src/main/resources/application.properties`](src/main/resources/application.properties).
 A porta padrão é a `8080` e pode ser alterada por `server.port`.
+
+O banco configurado é um **H2 em memória**, presente apenas para a aplicação
+subir com o JPA ativo enquanto o banco oficial não é definido — os dados são
+perdidos a cada reinício e o schema é recriado a partir das entidades
+(`ddl-auto=create-drop`). Ao adotar o banco definitivo, troque o datasource e
+substitua o `ddl-auto` por migração versionada (Flyway ou Liquibase).
 
 ## Tratamento de erros
 
